@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/sameeksha-dalvi/webpack-template#readme",
   "devDependencies": {
+    "@babel/preset-env": "^7.28.6",
     "css-loader": "^7.1.2",
     "html-loader": "^5.1.0",
     "html-webpack-plugin": "^5.6.6",
