@@ -1,3 +1,4 @@
+import { ship } from "../modules/ship";
 
 function gameboard() {
 
@@ -17,20 +18,33 @@ function gameboard() {
     const placeShip = (ship, x, y, direction) => {
         if (direction == 'horizontal') {
             for (let i = 0; i < ship.length; i++) {
-                board[x][y + i] = "X";
+                board[x][y + i] = ship;
             }
         }
 
         if (direction == 'vertical') {
             for (let i = 0; i < ship.length; i++) {
-                board[x + i][y] = "X";
+                board[x + i][y] = ship;
             }
         }
 
     };
 
+    const receiveAttack = (x, y) => {
+        //ship present to mark attack
+        if (board[x][y]) {
+            board[x][y].hit();
+            board[x][y] = "attacked";
+        } else { //ship not present so mark missed
+            board[x][y] = "missed";
+        }
 
-    return { getBoard, placeShip };
+        
+
+    };
+
+
+    return { getBoard, placeShip, receiveAttack };
 }
 
-export {gameboard} ;
+export { gameboard };
