@@ -26,7 +26,7 @@ test('places a ship vertically on the board', () => {
     expect(board[4][1]).toBe(myShip);
 });
 
-test('attacked ship', () => {
+test('attacked a ship', () => {
     const boardObj = gameboard();
     const myShip = ship(3);
     boardObj.placeShip(myShip, 1, 1, 'horizontal');
@@ -37,12 +37,23 @@ test('attacked ship', () => {
 });
 
 
-test('missed ship', () => {
+test('missed a ship', () => {
     const boardObj = gameboard();
     const myShip = ship(3);
     boardObj.placeShip(myShip, 1, 1, 'horizontal');
     boardObj.receiveAttack(0, 1);
     const board = boardObj.getBoard();
     expect(board[0][1]).toBe('missed');
+
+});
+
+
+test('all ships are sunk', () => {
+
+    const boardObj = gameboard();
+    const myShip = ship(1);
+    boardObj.placeShip(myShip, 1, 1, 'horizontal');
+    boardObj.receiveAttack(1, 1);
+    expect(boardObj.allShipsSunk()).toBe(true);
 
 });

@@ -5,6 +5,7 @@ function gameboard() {
     const rows = 10;
     const cols = 10;
     const board = [];
+    const ships = [];
 
     for (let i = 0; i < rows; i++) {
         board[i] = [];
@@ -16,6 +17,7 @@ function gameboard() {
     const getBoard = () => board;
 
     const placeShip = (ship, x, y, direction) => {
+        ships.push(ship);
         if (direction == 'horizontal') {
             for (let i = 0; i < ship.length; i++) {
                 board[x][y + i] = ship;
@@ -31,7 +33,7 @@ function gameboard() {
     };
 
     const receiveAttack = (x, y) => {
-        //ship present to mark attack
+        //ship present so mark attack
         if (board[x][y]) {
             board[x][y].hit();
             board[x][y] = "attacked";
@@ -39,12 +41,21 @@ function gameboard() {
             board[x][y] = "missed";
         }
 
-        
+
 
     };
 
+    const allShipsSunk = () => {
+        for (let i = 0; i < ships.length; i++) {
+            if (!ships[i].isSunk()) {
+                return false;
+            }
+        }
 
-    return { getBoard, placeShip, receiveAttack };
+        return true;
+    };
+
+    return { getBoard, placeShip, receiveAttack, allShipsSunk };
 }
 
 export { gameboard };
