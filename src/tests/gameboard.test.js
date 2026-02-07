@@ -57,3 +57,13 @@ test('all ships are sunk', () => {
     expect(boardObj.allShipsSunk()).toBe(true);
 
 });
+
+test('all ships not sunk', () => {
+
+    const boardObj = gameboard();
+    const myShip = ship(3);
+    boardObj.placeShip(myShip, 1, 1, 'horizontal');
+    boardObj.receiveAttack(1, 1);
+    expect(boardObj.allShipsSunk()).toBe(false);
+
+});
