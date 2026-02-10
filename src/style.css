@@ -1,30 +1,50 @@
-body{
-    background-color: #0A192F;
-    color: #F8FAFC;
+:root {
+    --color-primary: #0B2447;
+    --color-secondary: #778DA9;
+    --color-accent: #D7263D;
+    --color-background: #0A192F;
+    --color-primary-light: #193763;
+    --color-primary-dark: #061528;
+    --color-secondary-light: #9FB3C4;
+    --color-secondary-dark: #506273;
+    --color-accent-light: #FF4A55;
+    --color-accent-dark: #A11729;
+    --color-light: #F8FAFC;
+    --color-light-muted: #D9D9D9;
+    --color-dark: #0A0F1C;
+    --color-border: #1E2A3A;
 }
 
-.game-board{ 
- display: grid;
- grid-template-columns: repeat(10,50px);
- grid-template-rows: repeat(10,50px);
- justify-content: center;
+body {
+    background-color: var(--color-background);
+    color: var(--color-light);
+}
+
+.game-board {
+    display: grid;
+    grid-template-columns: repeat(10, 50px);
+    grid-template-rows: repeat(10, 50px);
+    justify-content: center;
 }
 
 .box {
- background-color: #d9d9d9;
- border: 2px solid black;
+    background-color: var(--color-light-muted);
+    /* #d9d9d9 */
+    border: 2px solid var(--color-border);
+    /* black → border color */
 }
 
-.gameboard-container{
+.gameboard-container {
     display: flex;
     gap: 40px;
 }
 
 .ship {
-    background-color: #4ade80; /* green */
+    background-color: var(--color-secondary-light);
+
 }
 
 .box:hover {
-  background-color: #4f5d75;
-  cursor: pointer;
+    background-color: var(--color-secondary-dark);
+    cursor: pointer;
 }
