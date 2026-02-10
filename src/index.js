@@ -14,3 +14,36 @@ p2.board.placeShip(ship2, 5, 5, "vertical");
 
 console.log(p1.board.getBoard());
 console.log(p2.board.getBoard());
+
+renderBoard(p1.board.getBoard(), "player1");
+renderBoard(p2.board.getBoard(), "player2");
+
+function renderBoard(board, player) {
+    console.log("renderBoard array size :" + board.length);
+    
+    let gameBoardDiv = "";
+    let boardSize = board.length;
+    if (player == "player1") {
+        gameBoardDiv = document.querySelector('#player1-board');
+    }
+
+    if (player == "player2") {
+        gameBoardDiv = document.querySelector('#player2-board');
+    }
+    gameBoardDiv.innerHTML = "";
+     for (let i = 0; i < boardSize; i++) {
+        for (let j = 0; j < boardSize; j++) {
+            const boxDiv = document.createElement("div");
+            boxDiv.className = "box";
+
+            if (board[i][j]) {
+                boxDiv.classList.add("ship");
+            }
+
+            gameBoardDiv.appendChild(boxDiv);
+        }
+    }
+
+
+
+}
