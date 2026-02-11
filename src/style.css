@@ -1,3 +1,12 @@
+@font-face {
+    font-family: 'Orbitron';
+    src: url('./Orbitron-Regular.woff2') format('woff2'),
+        url('./Orbitron-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
 :root {
     --color-primary: #0B2447;
     --color-secondary: #778DA9;
@@ -18,6 +27,11 @@
 body {
     background-color: var(--color-background);
     color: var(--color-light);
+}
+
+#game-heading{
+    font-family: Orbitron, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    letter-spacing: 4px;
 }
 
 .game-board {
