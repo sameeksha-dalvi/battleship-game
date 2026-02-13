@@ -20,18 +20,27 @@ renderBoard(p2.board.getBoard(), "player2");
 
 function renderBoard(board, player) {
     console.log("renderBoard array size :" + board.length);
-    
+
     let gameBoardDiv = "";
+    let gameBoardHeadingDiv = "";
+    let gameBoardTitle = "";
     let boardSize = board.length;
     if (player == "player1") {
         gameBoardDiv = document.querySelector('#player1-board');
+        gameBoardTitle = document.querySelector('#player1-heading');
+        gameBoardTitle.textContent = "Your Fleet";
     }
 
     if (player == "player2") {
         gameBoardDiv = document.querySelector('#player2-board');
+        gameBoardTitle = document.querySelector('#player2-heading');
+        gameBoardTitle.textContent = "Enemy Waters";
     }
     gameBoardDiv.innerHTML = "";
-     for (let i = 0; i < boardSize; i++) {
+
+
+
+    for (let i = 0; i < boardSize; i++) {
         for (let j = 0; j < boardSize; j++) {
             const boxDiv = document.createElement("div");
             boxDiv.className = "box";
