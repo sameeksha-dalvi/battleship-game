@@ -22,7 +22,6 @@ function renderBoard(board, player) {
     console.log("renderBoard array size :" + board.length);
 
     let gameBoardDiv = "";
-    let gameBoardHeadingDiv = "";
     let gameBoardTitle = "";
     let boardSize = board.length;
     if (player == "player1") {
@@ -55,4 +54,39 @@ function renderBoard(board, player) {
 
 
 
+}
+
+
+const enemyGameBoard = document.querySelector('#player2-board');
+
+enemyGameBoard.addEventListener('click', function (e) {
+    console.log('box hit !!!!');
+
+    const clickedCell = e.target;
+
+    if (!clickedCell.classList.contains("box")) {
+        return;
+    }
+
+    const boardCells = Array.from(enemyGameBoard.children);
+    const index = boardCells.indexOf(clickedCell);
+    const { row: row, col: col } = getCellPosition(index);
+    const attackResult = p2.board.receiveAttack(row, col);
+    console.log("rattackResult : ", attackResult);
+
+     if (attackResult === "hit") {
+        clickedCell.classList.add("hit");
+    } else {
+        clickedCell.classList.add("miss");
+    }
+
+    clickedCell.classList.add("attacked");
+
+});
+
+function getCellPosition(index) {
+    const rowPosition = Math.floor(index / 10);
+    const colPosition = index % 10;
+
+    return { row: rowPosition, col: colPosition };
 }

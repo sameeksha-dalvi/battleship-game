@@ -90,3 +90,13 @@ body {
     align-items: center;
     gap: 20px;
 }
+
+/* Missed shot = water splash */
+.miss {
+  background-color: var(--color-secondary-dark);
+}
+
+/* Ship hit = explosion red */
+.hit {
+  background-color: var(--color-accent);
+}

@@ -37,8 +37,10 @@ function gameboard() {
         if (board[x][y]) {
             board[x][y].hit();
             board[x][y] = "attacked";
+            return "hit";
         } else { //ship not present so mark missed
             board[x][y] = "missed";
+            return "miss";
         }
 
 
