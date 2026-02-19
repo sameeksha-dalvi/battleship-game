@@ -9,6 +9,8 @@ const p2 = player("computer");
 const ship1 = ship(3);
 const ship2 = ship(4);
 
+let currentTurn = "player";
+
 p1.board.placeShip(ship1, 0, 0, "horizontal");
 p2.board.placeShip(ship2, 5, 5, "vertical");
 
@@ -18,8 +20,10 @@ console.log(p2.board.getBoard());
 renderBoard(p1.board.getBoard(), "player1");
 renderBoard(p2.board.getBoard(), "player2");
 
+updateTurnUI();
+
 function renderBoard(board, player) {
-    console.log("renderBoard array size :" + board.length);
+    //console.log("renderBoard array size :" + board.length);
 
     let gameBoardDiv = "";
     let gameBoardTitle = "";
@@ -60,7 +64,8 @@ function renderBoard(board, player) {
 const enemyGameBoard = document.querySelector('#player2-board');
 
 enemyGameBoard.addEventListener('click', function (e) {
-    console.log('box hit !!!!');
+    if (currentTurn !== "player") return; // prevent clicking during computer turn
+
 
     const clickedCell = e.target;
 
@@ -74,13 +79,15 @@ enemyGameBoard.addEventListener('click', function (e) {
     const attackResult = p2.board.receiveAttack(row, col);
     console.log("rattackResult : ", attackResult);
 
-     if (attackResult === "hit") {
+    if (attackResult === "hit") {
         clickedCell.classList.add("hit");
     } else {
         clickedCell.classList.add("miss");
     }
 
     clickedCell.classList.add("attacked");
+
+    changeTurn();
 
 });
 
@@ -89,4 +96,59 @@ function getCellPosition(index) {
     const colPosition = index % 10;
 
     return { row: rowPosition, col: colPosition };
+}
+
+
+function updateTurnUI() {
+    const playerBox = document.querySelector(".player-turn");
+    const computerBox = document.querySelector(".computer-turn");
+
+    if (currentTurn === "player") {
+        playerBox.classList.add("active");
+        computerBox.classList.remove("active");
+    } else {
+        computerBox.classList.add("active");
+        playerBox.classList.remove("active");
+    }
+}
+
+function changeTurn() {
+    if (currentTurn === "player") {
+        currentTurn = "computer";
+    } else {
+        currentTurn = "player";
+    }
+    updateTurnUI();
+
+    if (currentTurn === "computer") {
+        setTimeout(() => {
+            computerAttack();
+        }, 600);
+}
+
+function computerAttack() {
+
+    let row = Math.floor(Math.random() * 10);
+    let col = Math.floor(Math.random() * 10);
+    let result = p1.board.receiveAttack(row, col);
+
+    while (result === "already") {
+        row = Math.floor(Math.random() * 10);
+        col = Math.floor(Math.random() * 10);
+        result = p1.board.receiveAttack(row, col);
+    }
+
+    const playerBoard = document.querySelector("#player1-board");
+    const cellIndex = row * 10 + col;
+    const cell = playerBoard.children[cellIndex];
+
+    if (result === "hit") {
+        cell.classList.add("hit");
+    } else {
+        cell.classList.add("miss");
+    }
+
+    setTimeout(() => {
+        changeTurn();
+    }, 600);
 }
