@@ -6,13 +6,34 @@ import { player } from "./modules/player";
 const p1 = player("human");
 const p2 = player("computer");
 
-const ship1 = ship(3);
-const ship2 = ship(4);
-
 let currentTurn = "player";
 
-p1.board.placeShip(ship1, 0, 0, "horizontal");
-p2.board.placeShip(ship2, 5, 5, "vertical");
+// Create all ships
+const p1Ship1 = ship(5);
+const p1Ship2 = ship(4);
+const p1Ship3 = ship(3);
+const p1Ship4 = ship(3);
+const p1Ship5 = ship(2);
+
+const p2Ship1 = ship(5);
+const p2Ship2 = ship(4);
+const p2Ship3 = ship(3);
+const p2Ship4 = ship(3);
+const p2Ship5 = ship(2);
+
+// Place ships at fixed coordinates for now (no random)
+p1.board.placeShip(p1Ship1, 0, 0, "horizontal");
+p1.board.placeShip(p1Ship2, 2, 0, "vertical");
+p1.board.placeShip(p1Ship3, 5, 5, "horizontal");
+p1.board.placeShip(p1Ship4, 7, 3, "vertical");
+p1.board.placeShip(p1Ship5, 9, 0, "horizontal");
+
+// Computer ships (also fixed or random later)
+p2.board.placeShip(p2Ship1, 0, 0, "vertical");
+p2.board.placeShip(p2Ship2, 0, 5, "horizontal");
+p2.board.placeShip(p2Ship3, 4, 2, "vertical");
+p2.board.placeShip(p2Ship4, 6, 6, "horizontal");
+p2.board.placeShip(p2Ship5, 9, 4, "horizontal");
 
 console.log(p1.board.getBoard());
 console.log(p2.board.getBoard());
