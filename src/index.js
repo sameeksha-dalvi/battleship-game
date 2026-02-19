@@ -123,7 +123,8 @@ function changeTurn() {
     if (currentTurn === "computer") {
         setTimeout(() => {
             computerAttack();
-        }, 600);
+        }, 600); 
+    }
 }
 
 function computerAttack() {
