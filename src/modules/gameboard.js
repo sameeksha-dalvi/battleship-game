@@ -33,6 +33,11 @@ function gameboard() {
     };
 
     const receiveAttack = (x, y) => {
+
+        if (board[x][y] === "attacked" || board[x][y] === "missed") {
+            return "already";
+        }
+
         //ship present so mark attack
         if (board[x][y]) {
             board[x][y].hit();

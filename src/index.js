@@ -98,7 +98,10 @@ enemyGameBoard.addEventListener('click', function (e) {
     const index = boardCells.indexOf(clickedCell);
     const { row: row, col: col } = getCellPosition(index);
     const attackResult = p2.board.receiveAttack(row, col);
+
     console.log("rattackResult : ", attackResult);
+
+    if (attackResult === "already") return;
 
     if (attackResult === "hit") {
         clickedCell.classList.add("hit");
