@@ -7,6 +7,7 @@ const p1 = player("human");
 const p2 = player("computer");
 
 let currentTurn = "player";
+let gameOver = false;
 
 // Create all ships
 const p1Ship1 = ship(5);
@@ -88,30 +89,43 @@ enemyGameBoard.addEventListener('click', function (e) {
     if (currentTurn !== "player") return; // prevent clicking during computer turn
 
 
-    const clickedCell = e.target;
+    if (!gameOver) {
+        const clickedCell = e.target;
 
-    if (!clickedCell.classList.contains("box")) {
-        return;
-    }
+        if (!clickedCell.classList.contains("box")) {
+            return;
+        }
 
-    const boardCells = Array.from(enemyGameBoard.children);
-    const index = boardCells.indexOf(clickedCell);
-    const { row: row, col: col } = getCellPosition(index);
-    const attackResult = p2.board.receiveAttack(row, col);
+        const boardCells = Array.from(enemyGameBoard.children);
+        const index = boardCells.indexOf(clickedCell);
+        const { row: row, col: col } = getCellPosition(index);
+        const attackResult = p2.board.receiveAttack(row, col);
 
-    console.log("rattackResult : ", attackResult);
+        console.log("all ship sunk player: ", p2.board.allShipsSunk());
 
-    if (attackResult === "already") return;
 
-    if (attackResult === "hit") {
-        clickedCell.classList.add("hit");
+        if (attackResult === "already") return;
+
+        if (attackResult === "hit") {
+            clickedCell.classList.add("hit");
+        } else {
+            clickedCell.classList.add("miss");
+        }
+
+        clickedCell.classList.add("attacked");
+
+        if (!p2.board.allShipsSunk()) {
+            changeTurn();
+
+        } else {
+            gameOver = true;
+            alert("Game Over!!!!");
+        }
+
+
     } else {
-        clickedCell.classList.add("miss");
+        alert("Game Over!!!!");
     }
-
-    clickedCell.classList.add("attacked");
-
-    changeTurn();
 
 });
 
@@ -147,33 +161,44 @@ function changeTurn() {
     if (currentTurn === "computer") {
         setTimeout(() => {
             computerAttack();
-        }, 600); 
+        }, 600);
     }
 }
 
 function computerAttack() {
 
-    let row = Math.floor(Math.random() * 10);
-    let col = Math.floor(Math.random() * 10);
-    let result = p1.board.receiveAttack(row, col);
+    if (!gameOver) {
+        let row = Math.floor(Math.random() * 10);
+        let col = Math.floor(Math.random() * 10);
+        let result = p1.board.receiveAttack(row, col);
 
-    while (result === "already") {
-        row = Math.floor(Math.random() * 10);
-        col = Math.floor(Math.random() * 10);
-        result = p1.board.receiveAttack(row, col);
-    }
+        while (result === "already") {
+            row = Math.floor(Math.random() * 10);
+            col = Math.floor(Math.random() * 10);
+            result = p1.board.receiveAttack(row, col);
+        }
 
-    const playerBoard = document.querySelector("#player1-board");
-    const cellIndex = row * 10 + col;
-    const cell = playerBoard.children[cellIndex];
+        const playerBoard = document.querySelector("#player1-board");
+        const cellIndex = row * 10 + col;
+        const cell = playerBoard.children[cellIndex];
+        console.log("all ship sunk computer: ", p1.board.allShipsSunk());
+        if (result === "hit") {
+            cell.classList.add("hit");
+        } else {
+            cell.classList.add("miss");
+        }
 
-    if (result === "hit") {
-        cell.classList.add("hit");
+        if (!p1.board.allShipsSunk()) {
+            setTimeout(() => {
+                changeTurn();
+            }, 600);
+        } else {
+            gameOver = true;
+            alert("Game Over!!!!");
+        }
+
     } else {
-        cell.classList.add("miss");
+        alert("Game Over!!!!");
     }
-
-    setTimeout(() => {
-        changeTurn();
-    }, 600);
 }
+
