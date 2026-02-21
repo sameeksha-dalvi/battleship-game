@@ -9,6 +9,7 @@ const p2 = player("computer");
 let currentTurn = "player";
 let gameOver = false;
 let winner = "";
+let fireworkLoop = null;
 
 // Create all ships
 const p1Ship1 = ship(5);
@@ -209,9 +210,138 @@ function computerAttack() {
     }
 }
 
-function showWinner(){
-    const gameStatus = document.querySelector('.game-status');
-    gameStatus.textContent = "Game Over!! Winner is " + winner.toUpperCase() + "!!!";
-    gameStatus.classList.remove('hidden');
+function showWinner() {
+    const overlay = document.querySelector(".winner-overlay");
+    const text = document.querySelector(".winner-text");
 
+    text.textContent = `${winner.toUpperCase()} WINS!`;
+
+    overlay.classList.remove("hidden");
+
+    fireworkLoop = setInterval(launchFirework, 500);
+
+}
+
+document.getElementById("test-fw-btn").addEventListener("click", () => {
+    winner = "player";  // temporary
+    showWinner();
+});
+
+
+const fireworkColors = [
+    "#FF2B2B", // Real Red
+    "#FFD700", // Gold
+    "#00FF7F", // Emerald Green
+    "#1E90FF", // Firework Blue
+    "#FF1493", // Magenta Pink
+    "#FFFFFF"  // White Spark
+];
+function launchFirework() {
+    const container = document.querySelector("#fireworks-container");
+    container.classList.remove('hidden');
+
+    const startX = Math.random() * window.innerWidth;
+    const endY = window.innerHeight * (0.6 + Math.random() * 0.35);
+
+    const rocket = document.createElement("div");
+    rocket.classList.add("firework-rocket");
+    rocket.style.left = startX + "px";
+    rocket.style.bottom = "0px";
+    container.appendChild(rocket);
+
+    let y = 0;
+    const rocketInterval = setInterval(() => {
+        y += 12;
+        rocket.style.bottom = y + "px";
+
+        // Spark trail
+        const spark = document.createElement("div");
+        spark.classList.add("spark");
+        spark.style.left = startX + "px";
+        spark.style.bottom = (y - 10) + "px";
+        container.appendChild(spark);
+
+        setTimeout(() => spark.remove(), 300);
+
+        if (y >= endY) {
+            clearInterval(rocketInterval);
+            rocket.remove();
+            explode(startX, y);
+        }
+    }, 20);
+}
+
+function explode(x, y) {
+    const container = document.querySelector("#fireworks-container");
+    const color = fireworkColors[Math.floor(Math.random() * fireworkColors.length)];
+
+    // Multi-stage explosion
+    multiStageExplosion(x, y, color, 40);   // inner burst
+    setTimeout(() => multiStageExplosion(x, y, color, 60), 150); // bigger
+    setTimeout(() => multiStageExplosion(x, y, color, 80), 300); // biggest
+
+    // Crackling effect
+    for (let i = 0; i < 20; i++) {
+        const crack = document.createElement("div");
+        crack.classList.add("crackle");
+        crack.style.left = x + "px";
+        crack.style.bottom = y + "px";
+        container.appendChild(crack);
+
+        let angle = Math.random() * Math.PI * 2;
+        let distance = 20 + Math.random() * 40;
+
+        crack.animate(
+            [
+                { transform: "translate(0,0)", opacity: 1 },
+                { transform: `translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px)`, opacity: 0 }
+            ],
+            { duration: 500, easing: "ease-out" }
+        );
+
+        setTimeout(() => crack.remove(), 550);
+    }
+}
+
+function multiStageExplosion(x, y, color, size) {
+    const container = document.querySelector("#fireworks-container");
+
+    for (let i = 0; i < 50; i++) {
+        const p = document.createElement("div");
+        p.classList.add("firework-particle");
+        p.style.background = color;
+        p.style.boxShadow = `0 0 10px ${color}`;
+        p.style.left = x + "px";
+        p.style.bottom = y + "px";
+        container.appendChild(p);
+
+        let angle = Math.random() * Math.PI * 2;
+        let distance = size + Math.random() * size;
+
+        p.animate(
+            [
+                { transform: "translate(0,0)", opacity: 1 },
+                { transform: `translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px)`, opacity: 0 }
+            ],
+            { duration: 1200, easing: "ease-out" }
+        );
+
+        setTimeout(() => p.remove(), 1300);
+    }
+}
+
+const restartBtn = document.querySelector('.restart-btn');
+
+restartBtn.addEventListener('click', function () {
+    const overlay = document.querySelector(".winner-overlay");
+    overlay.classList.add("hidden");
+    clearFireworks();
+});
+
+function clearFireworks() {
+    const fireworksContainer = document.getElementById("fireworks-container");
+    clearInterval(fireworkLoop);
+    fireworkLoop = null;
+    fireworksContainer.classList.add("hidden");
+    fireworksContainer.innerHTML = "";
 }

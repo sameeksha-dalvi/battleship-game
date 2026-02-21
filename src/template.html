@@ -8,13 +8,27 @@
 </head>
 
 <body>
+    <!-- Fireworks background -->
+    <div id="fireworks-container"></div>
+    <button id="test-fw-btn" style="position:fixed; top:20px; right:20px; z-index:3000;">
+        Test Fireworks
+    </button>
+    <div class="winner-overlay hidden">
+        <div class="winner-box">
+            <h1 class="winner-text"></h1>
+            <button class="restart-btn">Restart</button>
+        </div>
+    </div>
     <div class="main-container">
+
         <h1 id="game-heading">Battleship</h1>
         <div id="turn-indicator" class="turn-banner">
             <div class="turn-box player-turn active">Player Turn</div>
             <div class="turn-box computer-turn">Computer Turn</div>
         </div>
         <div class="game-status hidden">Winner</div>
+        <!-- Winner Overlay -->
+
         <div class="gameboard-container">
             <div class="board-container">
                 <h2 id="player1-heading" class="board-heading"></h2>
