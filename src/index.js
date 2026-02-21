@@ -8,6 +8,7 @@ const p2 = player("computer");
 
 let currentTurn = "player";
 let gameOver = false;
+let winner = "";
 
 // Create all ships
 const p1Ship1 = ship(5);
@@ -119,12 +120,15 @@ enemyGameBoard.addEventListener('click', function (e) {
 
         } else {
             gameOver = true;
-            alert("Game Over!!!!");
+            winner = "player";
+            showWinner();
+            //alert("Game Over!!!!");
         }
 
 
     } else {
-        alert("Game Over!!!!");
+        //alert("Game Over!!!!");
+        return;
     }
 
 });
@@ -194,11 +198,20 @@ function computerAttack() {
             }, 600);
         } else {
             gameOver = true;
-            alert("Game Over!!!!");
+            winner = "computer";
+            showWinner();
+            //alert("Game Over!!!!");
         }
 
     } else {
-        alert("Game Over!!!!");
+        //alert("Game Over!!!!");
+        return;
     }
 }
 
+function showWinner(){
+    const gameStatus = document.querySelector('.game-status');
+    gameStatus.textContent = "Game Over!! Winner is " + winner.toUpperCase() + "!!!";
+    gameStatus.classList.remove('hidden');
+
+}
