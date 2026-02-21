@@ -37,6 +37,7 @@
 body {
     background-color: var(--color-background);
     color: var(--color-light);
+    
 }
 
 .main-container{
@@ -56,6 +57,7 @@ body {
     grid-template-columns: repeat(10, 50px);
     grid-template-rows: repeat(10, 50px);
     justify-content: center;
+    cursor: url('./radar-cursor.svg') 30 30, crosshair;
 }
 
 .box {
@@ -248,3 +250,4 @@ body {
     0% { transform: scale(0.4); opacity: 0; }
     100% { transform: scale(1); opacity: 1; }
 }
+
