@@ -76,8 +76,28 @@ body {
 }
 
 .ship {
-    background-color: var(--color-secondary-light);
+  background: var(--color-secondary-light);
+  box-shadow: inset 0 0 10px rgba(255,255,255,0.2);
+}
 
+.ship.start-horizontal {
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+}
+
+.ship.end-horizontal {
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+.ship.start-vertical {
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+.ship.end-vertical {
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
 }
 
 .box:hover {

@@ -2,6 +2,7 @@ import "./style.css";
 import { ship } from "../src/modules/ship";
 import { gameboard } from "./modules/gameboard";
 import { player } from "./modules/player";
+import fireworkSrc from "./sounds/firework.mp3";
 
 const p1 = player("human");
 const p2 = player("computer");
@@ -10,6 +11,9 @@ let currentTurn = "player";
 let gameOver = false;
 let winner = "";
 let fireworkLoop = null;
+
+const fireworkSound = new Audio(fireworkSrc);
+fireworkSound.volume = 0.6; // adjust loudness
 
 // Create all ships
 const p1Ship1 = ship(5);
@@ -218,7 +222,7 @@ function showWinner() {
 
     overlay.classList.remove("hidden");
 
-    fireworkLoop = setInterval(launchFirework, 500);
+    fireworkLoop = setInterval(launchFirework, 1000);
 
 }
 
@@ -272,6 +276,10 @@ function launchFirework() {
 }
 
 function explode(x, y) {
+
+    fireworkSound.currentTime = 0; // restart sound from beginning
+    fireworkSound.play();
+
     const container = document.querySelector("#fireworks-container");
     const color = fireworkColors[Math.floor(Math.random() * fireworkColors.length)];
 
@@ -339,9 +347,12 @@ restartBtn.addEventListener('click', function () {
 });
 
 function clearFireworks() {
+    fireworkSound.pause();
+    fireworkSound.currentTime = 0;
     const fireworksContainer = document.getElementById("fireworks-container");
     clearInterval(fireworkLoop);
     fireworkLoop = null;
     fireworksContainer.classList.add("hidden");
     fireworksContainer.innerHTML = "";
+
 }
