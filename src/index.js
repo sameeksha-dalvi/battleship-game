@@ -3,6 +3,8 @@ import { ship } from "../src/modules/ship";
 import { gameboard } from "./modules/gameboard";
 import { player } from "./modules/player";
 import fireworkSrc from "./sounds/firework.mp3";
+import hitSrc from "./sounds/hit.mp3";
+import missSrc from "./sounds/miss.mp3";
 
 const p1 = player("human");
 const p2 = player("computer");
@@ -14,6 +16,15 @@ let fireworkLoop = null;
 
 const fireworkSound = new Audio(fireworkSrc);
 fireworkSound.volume = 0.6; // adjust loudness
+
+const hitSound = new Audio(hitSrc);
+hitSound.volume = 0.8;
+
+const missSound = new Audio(missSrc);
+missSound.volume = 0.8;
+
+hitSound.preload = "auto";
+missSound.preload = "auto";
 
 // Create all ships
 const p1Ship1 = ship(5);
@@ -114,8 +125,12 @@ enemyGameBoard.addEventListener('click', function (e) {
 
         if (attackResult === "hit") {
             clickedCell.classList.add("hit");
+            hitSound.currentTime = 0;
+            hitSound.play();
         } else {
             clickedCell.classList.add("miss");
+            missSound.currentTime = 0;
+            missSound.play();
         }
 
         clickedCell.classList.add("attacked");
@@ -193,8 +208,12 @@ function computerAttack() {
         console.log("all ship sunk computer: ", p1.board.allShipsSunk());
         if (result === "hit") {
             cell.classList.add("hit");
+            hitSound.currentTime = 0;
+            hitSound.play();
         } else {
             cell.classList.add("miss");
+            missSound.currentTime = 0;
+            missSound.play();
         }
 
         if (!p1.board.allShipsSunk()) {
