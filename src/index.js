@@ -93,17 +93,20 @@ function renderBoard(board, player) {
     let gameBoardDiv = "";
     let gameBoardTitle = "";
     let boardSize = board.length;
-    if (player == "player1") {
+
+    const isPlayerBoard = player === "player1";
+
+    if (isPlayerBoard) {
         gameBoardDiv = document.querySelector('#player1-board');
         gameBoardTitle = document.querySelector('#player1-heading');
         gameBoardTitle.textContent = "Your Fleet";
-    }
-
-    if (player == "player2") {
+    } else {
         gameBoardDiv = document.querySelector('#player2-board');
         gameBoardTitle = document.querySelector('#player2-heading');
         gameBoardTitle.textContent = "Enemy Waters";
     }
+
+
     gameBoardDiv.innerHTML = "";
 
 
@@ -113,7 +116,9 @@ function renderBoard(board, player) {
             const boxDiv = document.createElement("div");
             boxDiv.className = "box";
 
-            if (board[i][j]) {
+            const cell = board[i][j];
+
+            if (isPlayerBoard && typeof cell === "object") {
                 boxDiv.classList.add("ship");
             }
 
