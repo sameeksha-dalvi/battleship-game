@@ -52,18 +52,32 @@ const p2Ship4 = ship(3);
 const p2Ship5 = ship(2);
 
 // Place ships at fixed coordinates for now (no random)
-p1.board.placeShip(p1Ship1, 0, 0, "horizontal");
-p1.board.placeShip(p1Ship2, 2, 0, "vertical");
-p1.board.placeShip(p1Ship3, 5, 5, "horizontal");
-p1.board.placeShip(p1Ship4, 7, 3, "vertical");
-p1.board.placeShip(p1Ship5, 9, 0, "horizontal");
+// p1.board.placeShip(p1Ship1, 0, 0, "horizontal");
+// p1.board.placeShip(p1Ship2, 2, 0, "vertical");
+// p1.board.placeShip(p1Ship3, 5, 5, "horizontal");
+// p1.board.placeShip(p1Ship4, 7, 3, "vertical");
+// p1.board.placeShip(p1Ship5, 9, 0, "horizontal");
 
-// Computer ships (also fixed or random later)
-p2.board.placeShip(p2Ship1, 0, 0, "vertical");
-p2.board.placeShip(p2Ship2, 0, 5, "horizontal");
-p2.board.placeShip(p2Ship3, 4, 2, "vertical");
-p2.board.placeShip(p2Ship4, 6, 6, "horizontal");
-p2.board.placeShip(p2Ship5, 9, 4, "horizontal");
+// // Computer ships (also fixed or random later)
+// p2.board.placeShip(p2Ship1, 0, 0, "vertical");
+// p2.board.placeShip(p2Ship2, 0, 5, "horizontal");
+// p2.board.placeShip(p2Ship3, 4, 2, "vertical");
+// p2.board.placeShip(p2Ship4, 6, 6, "horizontal");
+// p2.board.placeShip(p2Ship5, 9, 4, "horizontal");
+
+// Player ships (random)
+p1.board.placeRandomShip(p1Ship1);
+p1.board.placeRandomShip(p1Ship2);
+p1.board.placeRandomShip(p1Ship3);
+p1.board.placeRandomShip(p1Ship4);
+p1.board.placeRandomShip(p1Ship5);
+
+// Computer ships (random)
+p2.board.placeRandomShip(p2Ship1);
+p2.board.placeRandomShip(p2Ship2);
+p2.board.placeRandomShip(p2Ship3);
+p2.board.placeRandomShip(p2Ship4);
+p2.board.placeRandomShip(p2Ship5);
 
 console.log(p1.board.getBoard());
 console.log(p2.board.getBoard());

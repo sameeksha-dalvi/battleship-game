@@ -62,7 +62,43 @@ function gameboard() {
         return true;
     };
 
-    return { getBoard, placeShip, receiveAttack, allShipsSunk };
+    const canPlace = (ship, x, y, direction) => {
+    const len = ship.length;
+
+    if (direction === "horizontal") {
+        if (y + len > cols) return false; // out of bounds
+        for (let i = 0; i < len; i++) {
+            if (board[x][y + i] !== "") return false; // overlap
+        }
+    }
+
+    if (direction === "vertical") {
+        if (x + len > rows) return false; // out of bounds
+        for (let i = 0; i < len; i++) {
+            if (board[x + i][y] !== "") return false; // overlap
+        }
+    }
+
+    return true;
+};
+
+
+const placeRandomShip = (ship) => {
+    let placed = false;
+
+    while (!placed) {
+        const x = Math.floor(Math.random() * rows);
+        const y = Math.floor(Math.random() * cols);
+        const direction = Math.random() < 0.5 ? "horizontal" : "vertical";
+
+        if (canPlace(ship, x, y, direction)) {
+            placeShip(ship, x, y, direction);
+            placed = true;
+        }
+    }
+};
+
+    return { getBoard, placeShip, receiveAttack, allShipsSunk, canPlace, placeRandomShip };
 }
 
 export { gameboard };
