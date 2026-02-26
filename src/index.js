@@ -5,6 +5,8 @@ import { player } from "./modules/player";
 import fireworkSrc from "./sounds/firework.mp3";
 import hitSrc from "./sounds/hit.mp3";
 import missSrc from "./sounds/miss.mp3";
+import playerSrc from "./sounds/playerTurn.mp3";
+import computerSrc from "./sounds/computerTurn.mp3";
 
 const p1 = player("human");
 const p2 = player("computer");
@@ -18,13 +20,23 @@ const fireworkSound = new Audio(fireworkSrc);
 fireworkSound.volume = 0.6; // adjust loudness
 
 const hitSound = new Audio(hitSrc);
-hitSound.volume = 0.8;
+hitSound.volume = 0.9;
 
 const missSound = new Audio(missSrc);
-missSound.volume = 0.8;
+missSound.volume = 0.9;
 
 hitSound.preload = "auto";
 missSound.preload = "auto";
+
+
+const playerTurnSound = new Audio(playerSrc);
+playerTurnSound.volume = 0.6;
+
+const computerTurnSound = new Audio(computerSrc);
+computerTurnSound.volume = 0.6;
+
+playerTurnSound.preload = "auto";
+computerTurnSound.preload = "auto";
 
 // Create all ships
 const p1Ship1 = ship(5);
@@ -136,7 +148,10 @@ enemyGameBoard.addEventListener('click', function (e) {
         clickedCell.classList.add("attacked");
 
         if (!p2.board.allShipsSunk()) {
-            changeTurn();
+            //changeTurn();
+            setTimeout(() => {
+                changeTurn();
+            }, 800);
 
         } else {
             gameOver = true;
@@ -168,9 +183,13 @@ function updateTurnUI() {
     if (currentTurn === "player") {
         playerBox.classList.add("active");
         computerBox.classList.remove("active");
+        playerTurnSound.currentTime = 0;
+        playerTurnSound.play();
     } else {
         computerBox.classList.add("active");
         playerBox.classList.remove("active");
+        computerTurnSound.currentTime = 0;
+        computerTurnSound.play();
     }
 }
 
@@ -185,7 +204,7 @@ function changeTurn() {
     if (currentTurn === "computer") {
         setTimeout(() => {
             computerAttack();
-        }, 600);
+        }, 1000);
     }
 }
 
@@ -219,7 +238,7 @@ function computerAttack() {
         if (!p1.board.allShipsSunk()) {
             setTimeout(() => {
                 changeTurn();
-            }, 600);
+            }, 1000);
         } else {
             gameOver = true;
             winner = "computer";
