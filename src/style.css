@@ -73,6 +73,8 @@ body {
 .gameboard-container {
     display: flex;
     gap: 40px;
+    justify-content: space-between;
+    width: 80%;
 }
 
 .ship {
