@@ -286,10 +286,10 @@ function showWinner() {
 
 }
 
-document.getElementById("test-fw-btn").addEventListener("click", () => {
-    winner = "player";  // temporary
-    showWinner();
-});
+// document.getElementById("test-fw-btn").addEventListener("click", () => {
+//     winner = "player";  // temporary
+//     showWinner();
+// });
 
 
 const fireworkColors = [
@@ -416,3 +416,21 @@ function clearFireworks() {
     fireworksContainer.innerHTML = "";
 
 }
+
+const howToBtn = document.querySelector("#how-to-play-btn");
+const howToOverlay = document.querySelector(".howto-overlay");
+const closeHowToBtn = document.querySelector(".close-howto-btn");
+
+howToBtn.addEventListener("click", () => {
+  howToOverlay.classList.remove("hidden");
+});
+
+closeHowToBtn.addEventListener("click", () => {
+  howToOverlay.classList.add("hidden");
+});
+
+howToOverlay.addEventListener("click", (e) => {
+  if (e.target === howToOverlay) {
+    howToOverlay.classList.add("hidden");
+  }
+});

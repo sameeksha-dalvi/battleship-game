@@ -10,9 +10,9 @@
 <body>
     <!-- Fireworks background -->
     <div id="fireworks-container"></div>
-    <button id="test-fw-btn" style="position:fixed; top:20px; right:20px; z-index:3000;">
+    <!-- <button id="test-fw-btn" style="position:fixed; top:20px; right:20px; z-index:3000;">
         Test Fireworks
-    </button>
+    </button> -->
     <div class="winner-overlay hidden">
         <div class="winner-box">
             <h1 class="winner-text"></h1>
@@ -21,7 +21,9 @@
     </div>
     <div class="header">
         <h1 id="game-heading">Battleship</h1>
-        
+        <div>
+            <button id="how-to-play-btn">How to Play</button>
+        </div>
     </div>
     <div class="main-container">
         <div id="turn-indicator" class="turn-banner">
@@ -44,7 +46,24 @@
 
         </div>
     </div>
+    <div class="howto-overlay hidden">
+        <div class="howto-box">
+            <h2>How to Play</h2>
 
+            <ul>
+                <li>Each player has a fleet of ships placed on a 10×10 grid.</li>
+                <li>Your ships are visible on your board.</li>
+                <li>Enemy ships are hidden.</li>
+                <li>Click a cell on the enemy board to fire a shot.</li>
+                <li><span class="square-box hit"></span> Hit</li>
+                <li><span class="square-box miss"></span> Miss</li>
+                <li>Players take turns attacking.</li>
+                <li>Sink all enemy ships to win the game.</li>
+            </ul>
+
+            <button class="close-howto-btn">Got it!</button>
+        </div>
+    </div>
 
 </body>
 
