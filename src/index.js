@@ -198,15 +198,18 @@ function getCellPosition(index) {
 function updateTurnUI() {
     const playerBox = document.querySelector(".player-turn");
     const computerBox = document.querySelector(".computer-turn");
+    const enemyBoard = document.querySelector("#player2-board");
 
     if (currentTurn === "player") {
         playerBox.classList.add("active");
         computerBox.classList.remove("active");
+        enemyBoard.classList.remove("disabled"); // enable clicking
         playerTurnSound.currentTime = 0;
         playerTurnSound.play();
     } else {
         computerBox.classList.add("active");
         playerBox.classList.remove("active");
+        enemyBoard.classList.add("disabled"); // disable clicking
         computerTurnSound.currentTime = 0;
         computerTurnSound.play();
     }
