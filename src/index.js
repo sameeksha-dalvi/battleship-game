@@ -8,6 +8,18 @@ import missSrc from "./sounds/miss.mp3";
 import playerSrc from "./sounds/playerTurn.mp3";
 import computerSrc from "./sounds/computerTurn.mp3";
 
+
+let gamePhase = 'setup';
+
+if(gamePhase === 'setup'){
+    document.querySelector('#player2-board').classList.add('hidden')
+    document.querySelector('#player2-heading').classList.add('hidden')
+    document.querySelector('#turn-indicator').classList.add('hidden')
+    document.querySelector('.gameboard-container').classList.add('setup-phase')
+}
+
+
+
 const p1 = player("human");
 const p2 = player("computer");
 
@@ -79,8 +91,8 @@ p2.board.placeRandomShip(p2Ship3);
 p2.board.placeRandomShip(p2Ship4);
 p2.board.placeRandomShip(p2Ship5);
 
-console.log(p1.board.getBoard());
-console.log(p2.board.getBoard());
+//console.log(p1.board.getBoard());
+//console.log(p2.board.getBoard());
 
 renderBoard(p1.board.getBoard(), "player1");
 renderBoard(p2.board.getBoard(), "player2");

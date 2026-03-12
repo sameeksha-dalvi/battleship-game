@@ -78,9 +78,10 @@ body {
 
 .gameboard-container {
     display: flex;
-    gap: 40px;
+    gap: 10px;
     justify-content: space-between;
     width: 80%;
+    align-items: center;
 }
 
 .ship {
@@ -441,4 +442,38 @@ body {
   height: 14px;
   margin-right: 8px;
   border-radius: 3px;
+}
+
+.setup-banner {
+    margin-bottom: 20px;
+    font-family: Orbitron;
+    border: 2px dashed var(--color-secondary-light);
+    padding: 5px 30px;
+    margin-bottom: 0px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px var(--color-secondary-light);
+    letter-spacing: 2px;
+}
+
+.gameboard-container.setup-phase {
+    justify-content: center;
+    gap: 50px;
+}
+
+.setup-btns{
+    display: flex;
+    flex-direction: column;
+    gap:30px;
+}
+
+.setup-btns > button{
+    padding: 15px 30px;
+    border-radius: 10px;
+    background: var(--color-accent);
+    color: white;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    font-family: Inter;
+    transition: 0.2s;
 }
