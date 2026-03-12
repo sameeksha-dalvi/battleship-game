@@ -11,11 +11,8 @@ import computerSrc from "./sounds/computerTurn.mp3";
 
 let gamePhase = 'setup';
 
-if(gamePhase === 'setup'){
-    document.querySelector('#player2-board').classList.add('hidden')
-    document.querySelector('#player2-heading').classList.add('hidden')
-    document.querySelector('#turn-indicator').classList.add('hidden')
-    document.querySelector('.gameboard-container').classList.add('setup-phase')
+if (gamePhase === 'setup') {
+    showSetupPhase();
 }
 
 
@@ -23,15 +20,15 @@ const shuffleFleetBtn = document.querySelector('#shuffle-fleet-btn');
 const startBattleBtn = document.querySelector('#start-battle-btn');
 
 
-startBattleBtn.addEventListener('click', () =>{
+startBattleBtn.addEventListener('click', () => {
     gamePhase = 'battle';
-    document.querySelector('#player2-board').classList.remove('hidden');
-    document.querySelector('#player2-heading').classList.remove('hidden');
-    document.querySelector('#turn-indicator').classList.remove('hidden');
-    document.querySelector('.gameboard-container').classList.remove('setup-phase');
-    document.querySelector('.setup-btns').classList.add('hidden');
-    document.querySelector('#setup-header').classList.add('hidden');
+    showBattlePhase();
+});
+
+shuffleFleetBtn.addEventListener('click', () =>{
+    shuffleFleet();
 })
+
 
 const p1 = player("human");
 const p2 = player("computer");
@@ -447,15 +444,42 @@ const howToOverlay = document.querySelector(".howto-overlay");
 const closeHowToBtn = document.querySelector(".close-howto-btn");
 
 howToBtn.addEventListener("click", () => {
-  howToOverlay.classList.remove("hidden");
+    howToOverlay.classList.remove("hidden");
 });
 
 closeHowToBtn.addEventListener("click", () => {
-  howToOverlay.classList.add("hidden");
+    howToOverlay.classList.add("hidden");
 });
 
 howToOverlay.addEventListener("click", (e) => {
-  if (e.target === howToOverlay) {
-    howToOverlay.classList.add("hidden");
-  }
+    if (e.target === howToOverlay) {
+        howToOverlay.classList.add("hidden");
+    }
 });
+
+function showSetupPhase() {
+    document.querySelector('#player2-board').classList.add('hidden')
+    document.querySelector('#player2-heading').classList.add('hidden')
+    document.querySelector('#turn-indicator').classList.add('hidden')
+    document.querySelector('.gameboard-container').classList.add('setup-phase')
+}
+
+function showBattlePhase() {
+    document.querySelector('#player2-board').classList.remove('hidden');
+    document.querySelector('#player2-heading').classList.remove('hidden');
+    document.querySelector('#turn-indicator').classList.remove('hidden');
+    document.querySelector('.gameboard-container').classList.remove('setup-phase');
+    document.querySelector('.setup-btns').classList.add('hidden');
+    document.querySelector('#setup-header').classList.add('hidden');
+}
+
+function shuffleFleet() {
+    p1.board = gameboard();// reset board
+    
+    p1.board.placeRandomShip(p1Ship1);
+    p1.board.placeRandomShip(p1Ship2);
+    p1.board.placeRandomShip(p1Ship3);
+    p1.board.placeRandomShip(p1Ship4);
+    p1.board.placeRandomShip(p1Ship5);
+    renderBoard(p1.board.getBoard(), "player1");
+}
