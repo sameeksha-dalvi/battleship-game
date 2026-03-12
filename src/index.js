@@ -24,13 +24,13 @@ const startBattleBtn = document.querySelector('#start-battle-btn');
 
 
 startBattleBtn.addEventListener('click', () =>{
-    gamePhase = 'battle'
-    document.querySelector('#player2-board').classList.remove('hidden')
-    document.querySelector('#player2-heading').classList.remove('hidden')
-    document.querySelector('#turn-indicator').classList.remove('hidden')
-    document.querySelector('.gameboard-container').classList.remove('setup-phase')
-    document.querySelector('.setup-btns').classList.add('hidden')
-    document.querySelector('#setup-header').classList.add('hidden')
+    gamePhase = 'battle';
+    document.querySelector('#player2-board').classList.remove('hidden');
+    document.querySelector('#player2-heading').classList.remove('hidden');
+    document.querySelector('#turn-indicator').classList.remove('hidden');
+    document.querySelector('.gameboard-container').classList.remove('setup-phase');
+    document.querySelector('.setup-btns').classList.add('hidden');
+    document.querySelector('#setup-header').classList.add('hidden');
 })
 
 const p1 = player("human");
