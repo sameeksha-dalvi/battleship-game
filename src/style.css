@@ -64,6 +64,7 @@ body {
     grid-template-rows: repeat(10, 50px);
     justify-content: center;
     cursor: url('./radar-cursor.svg') 30 30, crosshair;
+    border: 1px solid var(--color-secondary-dark);
 }
 
 .box {
@@ -89,24 +90,67 @@ body {
     box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.2);
 }
 
-.ship.start-horizontal {
-    border-top-left-radius: 20px;
-    border-bottom-left-radius: 20px;
+.ship.start-horizontal,.start-horizontal {
+    clip-path: polygon(
+        -5% 50%,  /* extend a little outside */
+        40% 0%,
+        105% 0%,  /* extend outside right */
+        105% 100%,
+        40% 100%,
+        -5% 50%
+    );
+     border-top-left-radius: 100% 100%;
+    border-bottom-left-radius: 100% 100%;
+    
 }
 
-.ship.end-horizontal {
-    border-top-right-radius: 20px;
-    border-bottom-right-radius: 20px;
+.ship.end-horizontal,.end-horizontal {
+     clip-path: polygon(
+        -5% 0%,
+        60% 0%,
+        105% 50%,
+        60% 100%,
+        -5% 100%
+    );
+    border-top-right-radius: 100% 100%;
+    border-bottom-right-radius: 100% 100%;
 }
 
-.ship.start-vertical {
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
+
+.ship.start-vertical,.start-vertical {
+   clip-path: polygon(
+        50% -5%,
+        100% 40%,
+        100% 105%,
+        0% 105%,
+        0% 40%
+    );
+
+    border-top-left-radius: 100% 100%;
+    border-top-right-radius: 100% 100%;
 }
 
-.ship.end-vertical {
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
+
+.ship.end-vertical,.end-vertical {
+   clip-path: polygon(
+        0% 0%,
+        100% 0%,
+        100% 60%,
+        50% 105%,
+        0% 60%
+    );
+
+    border-bottom-left-radius: 100% 100%;
+    border-bottom-right-radius: 100% 100%;
+}
+
+
+.ship.hit {
+    background: var(--color-accent);
+    box-shadow:
+        0 0 12px var(--color-accent-light),
+        inset 0 0 8px var(--color-accent-light);
+    /* do not remove clip-path */
 }
 
 .box:hover {
@@ -314,7 +358,9 @@ body {
 }
 
 .restart-btn:hover,
-#how-to-play-btn:hover,.close-howto-btn:hover {
+#how-to-play-btn:hover,
+.close-howto-btn:hover,
+.setup-btns>button:hover {
     transform: scale(1.05);
     background: var(--color-accent-light);
 }
@@ -339,8 +385,8 @@ body {
     cursor: not-allowed;
 }
 
-#player1-board{
-   cursor: not-allowed; 
+#player1-board {
+    cursor: not-allowed;
 }
 
 #player2-board.disabled::after {
@@ -422,7 +468,7 @@ body {
     line-height: 1.6;
 }
 
-.howto-box ul>li{
+.howto-box ul>li {
     letter-spacing: 1px;
 }
 
@@ -437,11 +483,11 @@ body {
 }
 
 .square-box {
-  display: inline-block;
-  width: 14px;
-  height: 14px;
-  margin-right: 8px;
-  border-radius: 3px;
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    margin-right: 8px;
+    border-radius: 3px;
 }
 
 .setup-banner {
@@ -460,13 +506,13 @@ body {
     gap: 50px;
 }
 
-.setup-btns{
+.setup-btns {
     display: flex;
     flex-direction: column;
-    gap:30px;
+    gap: 30px;
 }
 
-.setup-btns > button{
+.setup-btns>button {
     padding: 15px 30px;
     border-radius: 10px;
     background: var(--color-accent);
@@ -477,3 +523,4 @@ body {
     font-family: Inter;
     transition: 0.2s;
 }
+

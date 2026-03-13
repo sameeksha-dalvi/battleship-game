@@ -18,36 +18,54 @@ function gameboard() {
 
     const placeShip = (ship, x, y, direction) => {
         ships.push(ship);
+
+        const posArray = [];
+
         if (direction == 'horizontal') {
             for (let i = 0; i < ship.length; i++) {
                 board[x][y + i] = ship;
+                posArray.push({ row: x, col: y + i });
             }
         }
 
         if (direction == 'vertical') {
             for (let i = 0; i < ship.length; i++) {
                 board[x + i][y] = ship;
+                posArray.push({ row: x + i, col: y });
             }
         }
-
+        ship.positions = posArray;
+        ship.orientation = direction;
     };
 
     const receiveAttack = (x, y) => {
 
-        if (board[x][y] === "attacked" || board[x][y] === "missed") {
-            return "already";
-        }
+        // if (board[x][y] === "attacked" || board[x][y] === "missed") {
+        //     return "already";
+        // }
 
-        //ship present so mark attack
-        if (board[x][y]) {
-            board[x][y].hit();
-            board[x][y] = "attacked";
+        // //ship present so mark attack
+        // if (board[x][y]) {
+        //     board[x][y].hit();a
+        //     board[x][y] = "attacked";
+        //     return "hit";
+        // } else { //ship not present so mark missed
+        //     board[x][y] = "missed";
+        //     return "miss";
+        // }
+        const cell = board[x][y];
+
+        if (cell === "missed" || (cell && cell.attacked)) return "already";
+
+        if (cell && typeof cell === "object") { // ship object
+            console.log("Receiving attack at", x, y, "cell:", cell);
+            cell.hit();
+            board[x][y] = { ship: cell, attacked: true }; // keep ship ref
             return "hit";
-        } else { //ship not present so mark missed
+        } else {
             board[x][y] = "missed";
             return "miss";
         }
-
 
 
     };
@@ -63,40 +81,40 @@ function gameboard() {
     };
 
     const canPlace = (ship, x, y, direction) => {
-    const len = ship.length;
+        const len = ship.length;
 
-    if (direction === "horizontal") {
-        if (y + len > cols) return false; // out of bounds
-        for (let i = 0; i < len; i++) {
-            if (board[x][y + i] !== "") return false; // overlap
+        if (direction === "horizontal") {
+            if (y + len > cols) return false; // out of bounds
+            for (let i = 0; i < len; i++) {
+                if (board[x][y + i] !== "") return false; // overlap
+            }
         }
-    }
 
-    if (direction === "vertical") {
-        if (x + len > rows) return false; // out of bounds
-        for (let i = 0; i < len; i++) {
-            if (board[x + i][y] !== "") return false; // overlap
+        if (direction === "vertical") {
+            if (x + len > rows) return false; // out of bounds
+            for (let i = 0; i < len; i++) {
+                if (board[x + i][y] !== "") return false; // overlap
+            }
         }
-    }
 
-    return true;
-};
+        return true;
+    };
 
 
-const placeRandomShip = (ship) => {
-    let placed = false;
+    const placeRandomShip = (ship) => {
+        let placed = false;
 
-    while (!placed) {
-        const x = Math.floor(Math.random() * rows);
-        const y = Math.floor(Math.random() * cols);
-        const direction = Math.random() < 0.5 ? "horizontal" : "vertical";
+        while (!placed) {
+            const x = Math.floor(Math.random() * rows);
+            const y = Math.floor(Math.random() * cols);
+            const direction = Math.random() < 0.5 ? "horizontal" : "vertical";
 
-        if (canPlace(ship, x, y, direction)) {
-            placeShip(ship, x, y, direction);
-            placed = true;
+            if (canPlace(ship, x, y, direction)) {
+                placeShip(ship, x, y, direction);
+                placed = true;
+            }
         }
-    }
-};
+    };
 
     return { getBoard, placeShip, receiveAttack, allShipsSunk, canPlace, placeRandomShip };
 }

@@ -25,7 +25,7 @@ startBattleBtn.addEventListener('click', () => {
     showBattlePhase();
 });
 
-shuffleFleetBtn.addEventListener('click', () =>{
+shuffleFleetBtn.addEventListener('click', () => {
     shuffleFleet();
 })
 
@@ -101,9 +101,6 @@ p2.board.placeRandomShip(p2Ship3);
 p2.board.placeRandomShip(p2Ship4);
 p2.board.placeRandomShip(p2Ship5);
 
-//console.log(p1.board.getBoard());
-//console.log(p2.board.getBoard());
-
 renderBoard(p1.board.getBoard(), "player1");
 renderBoard(p2.board.getBoard(), "player2");
 
@@ -142,8 +139,32 @@ function renderBoard(board, player) {
 
             if (isPlayerBoard && typeof cell === "object") {
                 boxDiv.classList.add("ship");
-            }
+                const left = j > 0 ? board[i][j - 1] : null;
+                const right = j < boardSize - 1 ? board[i][j + 1] : null;
+                const top = i > 0 ? board[i - 1][j] : null;
+                const bottom = i < boardSize - 1 ? board[i + 1][j] : null;
 
+                if (left === cell || right === cell) {
+                    // horizontal ship
+                    if (left !== cell) {
+                        boxDiv.classList.add("start-horizontal");
+                    }
+                    if (right !== cell) {
+                        boxDiv.classList.add("end-horizontal");
+                    }
+                }
+
+                if (top === cell || bottom === cell) {
+                    // vertical ship
+                    if (top !== cell) {
+                        boxDiv.classList.add("start-vertical");
+                    }
+                    if (bottom !== cell) {
+                        boxDiv.classList.add("end-vertical");
+                    }
+                }
+            }
+            
             gameBoardDiv.appendChild(boxDiv);
         }
     }
@@ -178,6 +199,7 @@ enemyGameBoard.addEventListener('click', function (e) {
 
         if (attackResult === "hit") {
             clickedCell.classList.add("hit");
+            applyShipShape(p2.board.getBoard(), clickedCell, row, col, p2.board.getBoard()[row][col].ship);
             hitSound.currentTime = 0;
             hitSound.play();
         } else {
@@ -187,6 +209,7 @@ enemyGameBoard.addEventListener('click', function (e) {
         }
 
         clickedCell.classList.add("attacked");
+    
 
         if (!p2.board.allShipsSunk()) {
             //changeTurn();
@@ -426,6 +449,9 @@ restartBtn.addEventListener('click', function () {
     const overlay = document.querySelector(".winner-overlay");
     overlay.classList.add("hidden");
     clearFireworks();
+    gamePhase = 'setup';
+    showSetupPhase();
+
 });
 
 function clearFireworks() {
@@ -462,6 +488,8 @@ function showSetupPhase() {
     document.querySelector('#player2-heading').classList.add('hidden')
     document.querySelector('#turn-indicator').classList.add('hidden')
     document.querySelector('.gameboard-container').classList.add('setup-phase')
+    document.querySelector('.setup-btns').classList.remove('hidden');
+    document.querySelector('#setup-header').classList.remove('hidden');
 }
 
 function showBattlePhase() {
@@ -475,7 +503,7 @@ function showBattlePhase() {
 
 function shuffleFleet() {
     p1.board = gameboard();// reset board
-    
+
     p1.board.placeRandomShip(p1Ship1);
     p1.board.placeRandomShip(p1Ship2);
     p1.board.placeRandomShip(p1Ship3);
@@ -483,3 +511,24 @@ function shuffleFleet() {
     p1.board.placeRandomShip(p1Ship5);
     renderBoard(p1.board.getBoard(), "player1");
 }
+
+function applyShipShape(board, boxDiv, row, col, forcedShip) {
+    const cell = forcedShip || board[row][col];
+    if (!cell || cell === "missed") return;
+
+    const shipCell = cell.ship || cell;
+    if (!shipCell.positions || !shipCell.orientation) {
+    console.warn("Missing positions/orientation", shipCell);
+    return;
+}
+    const posIndex = shipCell.positions.findIndex(p => p.row === row && p.col === col);
+
+    if (shipCell.orientation === "horizontal") {
+        if (posIndex === 0) boxDiv.classList.add("start-horizontal");
+        else if (posIndex === shipCell.positions.length - 1) boxDiv.classList.add("end-horizontal");
+    } else if (shipCell.orientation === "vertical") {
+        if (posIndex === 0) boxDiv.classList.add("start-vertical");
+        else if (posIndex === shipCell.positions.length - 1) boxDiv.classList.add("end-vertical");
+    }
+}
+
