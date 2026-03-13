@@ -163,6 +163,12 @@ body {
     transform: scale(1.03);
 }
 
+.box:active {
+    background: rgba(90, 150, 255, 0.2);
+    border-color: var(--color-secondary-light);
+    transform: scale(0.95);
+}
+
 .board-heading {
     font-size: 18px;
 }
@@ -574,7 +580,6 @@ body {
         gap: 20px;
     }
 
-    setup-btns>button,
     .restart-btn,
     .close-howto-btn {
         width: 80%;
