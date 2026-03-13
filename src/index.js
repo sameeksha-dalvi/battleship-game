@@ -164,7 +164,7 @@ function renderBoard(board, player) {
                     }
                 }
             }
-            
+
             gameBoardDiv.appendChild(boxDiv);
         }
     }
@@ -209,7 +209,7 @@ enemyGameBoard.addEventListener('click', function (e) {
         }
 
         clickedCell.classList.add("attacked");
-    
+
 
         if (!p2.board.allShipsSunk()) {
             //changeTurn();
@@ -449,7 +449,41 @@ restartBtn.addEventListener('click', function () {
     const overlay = document.querySelector(".winner-overlay");
     overlay.classList.add("hidden");
     clearFireworks();
+    // Reset variables
     gamePhase = 'setup';
+    currentTurn = "player";
+    gameOver = false;
+    winner = "";
+
+    // Recreate ship objects
+    const newP1Ships = [
+        ship(5),
+        ship(4),
+        ship(3),
+        ship(3),
+        ship(2)
+    ];
+    const newP2Ships = [
+        ship(5),
+        ship(4),
+        ship(3),
+        ship(3),
+        ship(2)
+    ];
+
+    // Reset boards
+    p1.board = gameboard();
+    p2.board = gameboard();
+
+    // Place new ships randomly
+    newP1Ships.forEach(s => p1.board.placeRandomShip(s));
+    newP2Ships.forEach(s => p2.board.placeRandomShip(s));
+
+    // Render clean boards
+    renderBoard(p1.board.getBoard(), "player1");
+    renderBoard(p2.board.getBoard(), "player2");
+
+    // Show setup phase UI
     showSetupPhase();
 
 });
@@ -518,9 +552,9 @@ function applyShipShape(board, boxDiv, row, col, forcedShip) {
 
     const shipCell = cell.ship || cell;
     if (!shipCell.positions || !shipCell.orientation) {
-    console.warn("Missing positions/orientation", shipCell);
-    return;
-}
+        console.warn("Missing positions/orientation", shipCell);
+        return;
+    }
     const posIndex = shipCell.positions.findIndex(p => p.row === row && p.col === col);
 
     if (shipCell.orientation === "horizontal") {
