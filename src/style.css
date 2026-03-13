@@ -365,10 +365,15 @@ body {
 }
 
 .restart-btn:hover,
+.restart-btn:active,
 #how-to-play-btn:hover,
+#how-to-play-btn:active,
 .close-howto-btn:hover,
+.close-howto-btn:active,
 .setup-btns>button:hover,
-#sound-btn:hover {
+.setup-btns>button:active,
+#sound-btn:hover,
+#sound-btn:active {
     transform: scale(1.05);
     background: var(--color-accent-light);
 }
@@ -639,7 +644,8 @@ body {
         font-size: 24px;
     }
 
-    .restart-btn,.close-howto-btn {
+    .restart-btn,
+    .close-howto-btn {
         width: 100%;
         font-size: 16px;
     }
