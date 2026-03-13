@@ -8,8 +8,17 @@ import missSrc from "./sounds/miss.mp3";
 import playerSrc from "./sounds/playerTurn.mp3";
 import computerSrc from "./sounds/computerTurn.mp3";
 
+const volumeOn = `
+<path d="M14,3.23V5.29C16.89,6.15 19,8.83 19,12C19,15.17 16.89,17.84 14,18.7V20.77C18,19.86 21,16.28 21,12C21,7.72 18,4.14 14,3.23M16.5,12C16.5,10.23 15.5,8.71 14,7.97V16C15.5,15.29 16.5,13.76 16.5,12M3,9V15H7L12,20V4L7,9H3Z"/>
+`;
+
+const volumeOff = `
+<path d="M12,4L9.91,6.09L12,8.18M4.27,3L3,4.27L7.73,9H3V15H7L12,20V13.27L16.25,17.53C15.58,18.04 14.83,18.46 14,18.7V20.77C15.38,20.45 16.63,19.82 17.68,18.96L19.73,21L21,19.73L12,10.73M19,12C19,12.94 18.8,13.82 18.46,14.64L19.97,16.15C20.62,14.91 21,13.5 21,12C21,7.72 18,4.14 14,3.23V5.29C16.89,6.15 19,8.83 19,12M16.5,12C16.5,10.23 15.5,8.71 14,7.97V10.18L16.45,12.63C16.5,12.43 16.5,12.21 16.5,12Z"/>
+`;
+
 
 let gamePhase = 'setup';
+let soundEnabled = true;
 
 if (gamePhase === 'setup') {
     showSetupPhase();
@@ -29,6 +38,16 @@ shuffleFleetBtn.addEventListener('click', () => {
     shuffleFleet();
 })
 
+
+
+const soundBtn = document.getElementById("sound-btn");
+const soundIcon = document.getElementById("sound-icon");
+
+soundBtn.addEventListener("click", () => {
+    soundEnabled = !soundEnabled;
+
+    soundIcon.innerHTML = soundEnabled ? volumeOn : volumeOff;
+});
 
 const p1 = player("human");
 const p2 = player("computer");
@@ -200,12 +219,19 @@ enemyGameBoard.addEventListener('click', function (e) {
         if (attackResult === "hit") {
             clickedCell.classList.add("hit");
             applyShipShape(p2.board.getBoard(), clickedCell, row, col, p2.board.getBoard()[row][col].ship);
-            hitSound.currentTime = 0;
-            hitSound.play();
+
+            if (soundEnabled) {
+                hitSound.currentTime = 0;
+                hitSound.play();
+            }
+
         } else {
             clickedCell.classList.add("miss");
-            missSound.currentTime = 0;
-            missSound.play();
+            if (soundEnabled) {
+                missSound.currentTime = 0;
+                missSound.play();
+            }
+
         }
 
         clickedCell.classList.add("attacked");
@@ -249,14 +275,20 @@ function updateTurnUI() {
         playerBox.classList.add("active");
         computerBox.classList.remove("active");
         enemyBoard.classList.remove("disabled"); // enable clicking
-        playerTurnSound.currentTime = 0;
-        playerTurnSound.play();
+        if (soundEnabled) {
+            playerTurnSound.currentTime = 0;
+            playerTurnSound.play();
+        }
+
     } else {
         computerBox.classList.add("active");
         playerBox.classList.remove("active");
         enemyBoard.classList.add("disabled"); // disable clicking
-        computerTurnSound.currentTime = 0;
-        computerTurnSound.play();
+        if (soundEnabled) {
+            computerTurnSound.currentTime = 0;
+            computerTurnSound.play();
+        }
+
     }
 }
 
@@ -294,12 +326,18 @@ function computerAttack() {
         console.log("all ship sunk computer: ", p1.board.allShipsSunk());
         if (result === "hit") {
             cell.classList.add("hit");
-            hitSound.currentTime = 0;
-            hitSound.play();
+            if (soundEnabled) {
+                hitSound.currentTime = 0;
+                hitSound.play();
+            }
+
         } else {
             cell.classList.add("miss");
-            missSound.currentTime = 0;
-            missSound.play();
+            if (soundEnabled) {
+                missSound.currentTime = 0;
+                missSound.play();
+            }
+
         }
 
         if (!p1.board.allShipsSunk()) {
@@ -382,8 +420,11 @@ function launchFirework() {
 
 function explode(x, y) {
 
-    fireworkSound.currentTime = 0; // restart sound from beginning
-    fireworkSound.play();
+    if (soundEnabled) {
+        fireworkSound.currentTime = 0; // restart sound from beginning
+        fireworkSound.play();
+    }
+
 
     const container = document.querySelector("#fireworks-container");
     const color = fireworkColors[Math.floor(Math.random() * fireworkColors.length)];
@@ -489,8 +530,12 @@ restartBtn.addEventListener('click', function () {
 });
 
 function clearFireworks() {
-    fireworkSound.pause();
-    fireworkSound.currentTime = 0;
+
+    if (soundEnabled) {
+        fireworkSound.pause();
+        fireworkSound.currentTime = 0;
+    }
+
     const fireworksContainer = document.getElementById("fireworks-container");
     clearInterval(fireworkLoop);
     fireworkLoop = null;
