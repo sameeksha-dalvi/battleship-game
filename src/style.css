@@ -334,8 +334,8 @@ body {
     padding: 40px 50px;
     border-radius: 15px;
     text-align: center;
-    border: 2px solid var(--color-accent);
-    box-shadow: 0 0 20px var(--color-accent-light);
+    border: 2px dashed var(--color-secondary-light);
+    box-shadow: 0 0 20px var(--color-secondary-light);
     font-family: Orbitron;
     animation: popIn 0.4s ease-out;
 }
@@ -608,7 +608,7 @@ body {
 
     .howto-box {
         width: 90%;
-        padding: 25px;
+        padding: 22px;
         max-height: 80vh;
         overflow-y: auto;
     }
@@ -622,6 +622,24 @@ body {
     }
 
     .howto-overlay {
+        padding: 20px;
+    }
+
+    .winner-box {
+        width: 90%;
+        padding: 20px;
+    }
+
+    .winner-text {
+        font-size: 24px;
+    }
+
+    .restart-btn,.close-howto-btn {
+        width: 100%;
+        font-size: 16px;
+    }
+
+    .winner-overlay {
         padding: 20px;
     }
 }
