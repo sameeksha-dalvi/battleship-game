@@ -59,6 +59,7 @@ let currentTurn = "player";
 let gameOver = false;
 let winner = "";
 let fireworkLoop = null;
+let targetQueue = [];
 
 const fireworkSound = new Audio(fireworkSrc);
 fireworkSound.volume = 0.6; // adjust loudness
@@ -302,16 +303,48 @@ function changeTurn() {
     }
 }
 
+function getAdjacentCells(row, col) {
+    const neighbors = [];
+
+    if (row > 0) neighbors.push({ row: row - 1, col: col }); // up
+    if (row < 9) neighbors.push({ row: row + 1, col: col }); // down
+    if (col > 0) neighbors.push({ row: row, col: col - 1 }); // left
+    if (col < 9) neighbors.push({ row: row, col: col + 1 }); // right
+
+    return neighbors;
+}
+
+
 function computerAttack() {
 
     if (!gameOver) {
-        let row = Math.floor(Math.random() * 10);
-        let col = Math.floor(Math.random() * 10);
+        // let row = Math.floor(Math.random() * 10);
+        // let col = Math.floor(Math.random() * 10);
+        let row;
+        let col;
+
+        if (targetQueue.length > 0) {
+            const next = targetQueue.shift();
+            row = next.row;
+            col = next.col;
+        } else {
+            row = Math.floor(Math.random() * 10);
+            col = Math.floor(Math.random() * 10);
+        }
         let result = p1.board.receiveAttack(row, col);
 
         while (result === "already") {
-            row = Math.floor(Math.random() * 10);
-            col = Math.floor(Math.random() * 10);
+            // row = Math.floor(Math.random() * 10);
+            // col = Math.floor(Math.random() * 10);
+            if (targetQueue.length > 0) {
+                const next = targetQueue.shift();
+                row = next.row;
+                col = next.col;
+            } else {
+                row = Math.floor(Math.random() * 10);
+                col = Math.floor(Math.random() * 10);
+            }
+
             result = p1.board.receiveAttack(row, col);
         }
 
@@ -322,6 +355,11 @@ function computerAttack() {
         if (result === "hit") {
             cell.classList.add("hit");
             playSound(hitSound);
+            const neighbors = getAdjacentCells(row, col);
+
+            for (let i = 0; i < neighbors.length; i++) {
+                targetQueue.push(neighbors[i]);
+            }
 
         } else {
             cell.classList.add("miss");
@@ -484,6 +522,7 @@ restartBtn.addEventListener('click', function () {
     currentTurn = "player";
     gameOver = false;
     winner = "";
+    targetQueue = [];
 
     // Recreate ship objects
     const newP1Ships = [
