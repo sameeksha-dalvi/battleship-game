@@ -7,6 +7,7 @@ import hitSrc from "./sounds/hit.mp3";
 import missSrc from "./sounds/miss.mp3";
 import playerSrc from "./sounds/playerTurn.mp3";
 import computerSrc from "./sounds/computerTurn.mp3";
+import clickSrc from "./sounds/click.mp3";
 
 const volumeOn = `
 <path d="M14,3.23V5.29C16.89,6.15 19,8.83 19,12C19,15.17 16.89,17.84 14,18.7V20.77C18,19.86 21,16.28 21,12C21,7.72 18,4.14 14,3.23M16.5,12C16.5,10.23 15.5,8.71 14,7.97V16C15.5,15.29 16.5,13.76 16.5,12M3,9V15H7L12,20V4L7,9H3Z"/>
@@ -30,11 +31,13 @@ const startBattleBtn = document.querySelector('#start-battle-btn');
 
 
 startBattleBtn.addEventListener('click', () => {
+    playSound(clickSound);
     gamePhase = 'battle';
     showBattlePhase();
 });
 
 shuffleFleetBtn.addEventListener('click', () => {
+    playSound(clickSound);
     shuffleFleet();
 })
 
@@ -45,7 +48,7 @@ const soundIcon = document.getElementById("sound-icon");
 
 soundBtn.addEventListener("click", () => {
     soundEnabled = !soundEnabled;
-
+    playSound(clickSound);
     soundIcon.innerHTML = soundEnabled ? volumeOn : volumeOff;
 });
 
@@ -76,8 +79,13 @@ playerTurnSound.volume = 0.6;
 const computerTurnSound = new Audio(computerSrc);
 computerTurnSound.volume = 0.6;
 
+const clickSound = new Audio(clickSrc);
+clickSound.volume = 0.4;
+
 playerTurnSound.preload = "auto";
 computerTurnSound.preload = "auto";
+clickSound.preload = "auto";
+
 
 // Create all ships
 const p1Ship1 = ship(5);
@@ -219,18 +227,11 @@ enemyGameBoard.addEventListener('click', function (e) {
         if (attackResult === "hit") {
             clickedCell.classList.add("hit");
             applyShipShape(p2.board.getBoard(), clickedCell, row, col, p2.board.getBoard()[row][col].ship);
-
-            if (soundEnabled) {
-                hitSound.currentTime = 0;
-                hitSound.play();
-            }
+            playSound(hitSound);
 
         } else {
             clickedCell.classList.add("miss");
-            if (soundEnabled) {
-                missSound.currentTime = 0;
-                missSound.play();
-            }
+            playSound(missSound);
 
         }
 
@@ -275,19 +276,13 @@ function updateTurnUI() {
         playerBox.classList.add("active");
         computerBox.classList.remove("active");
         enemyBoard.classList.remove("disabled"); // enable clicking
-        if (soundEnabled) {
-            playerTurnSound.currentTime = 0;
-            playerTurnSound.play();
-        }
+        playSound(playerTurnSound);
 
     } else {
         computerBox.classList.add("active");
         playerBox.classList.remove("active");
         enemyBoard.classList.add("disabled"); // disable clicking
-        if (soundEnabled) {
-            computerTurnSound.currentTime = 0;
-            computerTurnSound.play();
-        }
+        playSound(computerTurnSound);
 
     }
 }
@@ -326,17 +321,11 @@ function computerAttack() {
         console.log("all ship sunk computer: ", p1.board.allShipsSunk());
         if (result === "hit") {
             cell.classList.add("hit");
-            if (soundEnabled) {
-                hitSound.currentTime = 0;
-                hitSound.play();
-            }
+            playSound(hitSound);
 
         } else {
             cell.classList.add("miss");
-            if (soundEnabled) {
-                missSound.currentTime = 0;
-                missSound.play();
-            }
+            playSound(missSound);
 
         }
 
@@ -549,10 +538,12 @@ const howToOverlay = document.querySelector(".howto-overlay");
 const closeHowToBtn = document.querySelector(".close-howto-btn");
 
 howToBtn.addEventListener("click", () => {
+    playSound(clickSound);
     howToOverlay.classList.remove("hidden");
 });
 
 closeHowToBtn.addEventListener("click", () => {
+    playSound(clickSound);
     howToOverlay.classList.add("hidden");
 });
 
@@ -611,3 +602,9 @@ function applyShipShape(board, boxDiv, row, col, forcedShip) {
     }
 }
 
+
+function playSound(audio) {
+    if (!soundEnabled) return;
+    audio.currentTime = 0;
+    audio.play();
+}

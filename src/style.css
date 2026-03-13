@@ -361,7 +361,8 @@ body {
 .restart-btn:hover,
 #how-to-play-btn:hover,
 .close-howto-btn:hover,
-.setup-btns>button:hover {
+.setup-btns>button:hover,
+#sound-btn:hover {
     transform: scale(1.05);
     background: var(--color-accent-light);
 }
