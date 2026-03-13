@@ -1,0 +1,13 @@
+<svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+  <!-- Outer static ring -->
+  <circle cx="30" cy="30" r="10" fill="none" stroke="#F8FAFC" stroke-width="2"/>
+
+  <!-- Expanding sonar pulse -->
+  <circle cx="30" cy="30" r="20" fill="none" stroke="#F8FAFC" stroke-width="1" opacity="0.6">
+    <animate attributeName="r" from="10" to="26" dur="1.5s" repeatCount="indefinite" />
+    <animate attributeName="opacity" from="0.6" to="0" dur="1.5s" repeatCount="indefinite" />
+  </circle>
+
+  <!-- Center dot -->
+  <circle cx="30" cy="30" r="5" fill="#F8FAFC"/>
+</svg>
