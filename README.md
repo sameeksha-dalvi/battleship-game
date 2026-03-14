@@ -46,3 +46,6 @@ The goal of this project was to practice:
 
 ### Ship Setup
 ![Ship Setup](/screenshots/setup.png)
+
+## Credits
+Sound effects used in this project are from free online sound libraries.
